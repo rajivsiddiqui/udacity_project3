@@ -21,7 +21,6 @@ jobs:
           name: Say Hello
           command: |
             echo "Hello World"
-
 #  build-frontend:
 
 #  build-frontend:
