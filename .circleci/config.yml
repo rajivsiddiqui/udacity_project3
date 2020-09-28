@@ -21,16 +21,51 @@ jobs:
           name: Say Hello
           command: |
             echo "Hello World"
-
+  
 #  build-frontend:
+  build-compile-front-end:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: build and compile front end
+          command: |
+            ls -ltr
+            cd frontend
+            npm i
+            cd ..
+            cd utils
+            docker compose up
+            cd ..
+            cd frontend
+            npm run build
+
+  build-compile-back-end:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: build and compile back end
+          command: |
+            ls -ltr
+            cd backend
+            npm i
+            cd ..
+            cd utils
+            docker compose up
+            cd ..
+            cd backend
+            npm run build          
 
 #  build-frontend:
 
 #  test-frontend:
 
-#  est-backend:
+#  test-backend:
 
-#  can-frontend:
+#  scan-frontend:
 
 #  scan-backend:
 
@@ -52,3 +87,5 @@ workflows:
   default:
     jobs:
       - hello-world
+      - build-compile-front-end
+      - build-compile-back-end
