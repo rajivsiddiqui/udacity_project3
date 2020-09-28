@@ -25,7 +25,7 @@ jobs:
 #  build-frontend:
   build-compile-front-end:
     docker:
-      - image: amazon/aws-cli
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
@@ -43,7 +43,7 @@ jobs:
 
   build-compile-back-end:
     docker:
-      - image: amazon/aws-cli
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
