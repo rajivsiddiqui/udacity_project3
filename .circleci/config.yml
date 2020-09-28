@@ -33,7 +33,6 @@ jobs:
           command: |
             ls -ltr
             cd frontend
-            npm i
             cd ..
             cd utils
             docker compose up
@@ -51,7 +50,6 @@ jobs:
           command: |
             ls -ltr
             cd backend
-            npm i
             cd ..
             cd utils
             docker compose up
