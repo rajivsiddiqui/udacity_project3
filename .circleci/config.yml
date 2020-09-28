@@ -34,7 +34,7 @@ jobs:
             ls -ltr
             cd frontend
             cd ..
-            cd utils
+            cd util
             docker compose up
             cd ..
             cd frontend
@@ -51,7 +51,7 @@ jobs:
             ls -ltr
             cd backend
             cd ..
-            cd utils
+            cd util
             docker compose up
             cd ..
             cd backend
