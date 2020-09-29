@@ -46,9 +46,6 @@ jobs:
       - run:
           name: build and compile back end
           command: |
-            cd util
-            sudo docker-compose up
-            cd ..
             cd backend
             ls -ltr
             npm i
