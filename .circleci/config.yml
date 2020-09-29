@@ -47,8 +47,7 @@ jobs:
           name: build and compile back end
           command: |
             cd util
-            /etc/init.d/docker start
-            docker-compose up
+            sudo docker-compose up
             cd ..
             cd backend
             ls -ltr
