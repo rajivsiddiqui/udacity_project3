@@ -46,14 +46,13 @@ jobs:
       - run:
           name: build and compile back end
           command: |
-            ls -ltr
-            cd backend
-            cd ..
             cd util
             docker-compose up
             cd ..
             cd backend
             ls -ltr
+            npm i
+            npm run build
                       
 
 #  build-frontend:
