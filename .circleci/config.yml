@@ -33,6 +33,7 @@ jobs:
           command: |
             ls -ltr
             cd frontend
+            npm i
             npm run build
 
             
