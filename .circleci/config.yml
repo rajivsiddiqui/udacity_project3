@@ -47,6 +47,7 @@ jobs:
           name: build and compile back end
           command: |
             cd util
+            service docker restart
             docker-compose up
             cd ..
             cd backend
