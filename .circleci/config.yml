@@ -33,14 +33,10 @@ jobs:
           command: |
             ls -ltr
             cd frontend
-            cd ..
-            cd util
-            docker-compose up
-            cd ..
-            cd frontend
-            ls -ltr
-            
+            npm run build
 
+            
+            
   build-compile-back-end:
     docker:
       - image: circleci/node:13.8.0
