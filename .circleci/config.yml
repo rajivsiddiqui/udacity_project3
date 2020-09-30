@@ -103,7 +103,7 @@ workflows:
       - test-frontend:
           requires:
             - build-compile-front-end
-      - test-backendend:
+      - test-backend:
           requires:
             -  build-compile-back-end  
 
