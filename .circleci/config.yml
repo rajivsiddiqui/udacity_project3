@@ -54,7 +54,7 @@ jobs:
 # test-frontend:
   test-frontend:
     docker:
-      - image: circle/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
@@ -67,7 +67,7 @@ jobs:
 # test-backend:
   test-backend:
     docker:
-      - image: circle/node:13.8.0
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run:
