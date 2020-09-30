@@ -62,7 +62,8 @@ jobs:
           command: |
             ls -ltr
             cd frontend
-            npm test
+            npm install jest
+            npm run test
 
 # test-backend:
   test-backend:
@@ -75,7 +76,8 @@ jobs:
           command: |
             ls -ltr
             cd backend
-            npm test
+            npm install jest
+            npm run test
 
 
 #  scan-frontend:
