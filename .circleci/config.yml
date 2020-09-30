@@ -37,7 +37,7 @@ jobs:
             npm run build
 
             
-            
+ # build-backend           
   build-compile-back-end:
     docker:
       - image: circleci/node:13.8.0
@@ -50,13 +50,31 @@ jobs:
             ls -ltr
             npm i
             npm run build
-                      
 
-#  build-frontend:
+# test-frontend:
+  test-frontend:
+    docker:
+      - image: circle/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: test frontend
+          command: |
+            cd frontend
+            npm run test
 
-#  test-frontend:
+# test-backend:
+  test-backend:
+    docker:
+      - image: circle/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: test backend
+          command: |
+            cd backend
+            npm run test
 
-#  test-backend:
 
 #  scan-frontend:
 
@@ -82,3 +100,10 @@ workflows:
       - hello-world
       - build-compile-front-end
       - build-compile-back-end
+      - test-frontend:
+          requires:
+            - build-compile-front-end
+      - test-backendend:
+          requires:
+            -  build-compile-back-end  
+
