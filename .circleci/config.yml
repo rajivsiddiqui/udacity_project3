@@ -60,6 +60,7 @@ jobs:
       - run:
           name: test frontend
           command: |
+            ls -ltr
             cd frontend
             npm run test
 
@@ -72,6 +73,7 @@ jobs:
       - run:
           name: test backend
           command: |
+            ls -ltr
             cd backend
             npm run test
 
@@ -103,7 +105,9 @@ workflows:
       - test-frontend:
           requires:
             - build-compile-front-end
+            - build-compile-back-end
       - test-backend:
           requires:
-            -  build-compile-back-end  
+            - build-compile-front-end
+            - build-compile-back-end  
 
