@@ -62,13 +62,13 @@ jobs:
           command: |
             ls -ltr
             cd frontend
-            mkdir reports
-            mkdir reports/junit
-            ls -ltr
             npm install jest
             npm run test
-            
-
+      - run:
+          name: create reports directory 
+          command: |
+            mkdir -p ~/reports/
+            mkdir -p ~/reports/junit/
       - run:
           name: Install JUnit coverage reporter
           command: yarn add --dev jest-junit
@@ -77,11 +77,11 @@ jobs:
           command: |
             jest --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
-            JEST_JUNIT_OUTPUT: ./reports/junit/js-test-results-frontend.xml
+            JEST_JUNIT_OUTPUT_DIR: /reports/junit/
       - store_test_results:
-          path: ./reports/junit/
+          path: /reports/junit/
       - store_artifacts:
-          path: ./reports/junit      
+          path: /reports/junit      
 
 # test-backend:
   test-backend:
@@ -94,12 +94,14 @@ jobs:
           command: |
             ls -ltr
             cd backend
-            mkdir reports
-            mkdir reports/junit
-            ls -ltr
             npm install jest
             npm run test
-            
+      - run:
+          name: create reports directory 
+          command: |
+            mkdir -p ~/reports/
+            mkdir -p ~/reports/junit/
+
       - run:
           name: Install JUnit coverage reporter
           command: yarn add --dev jest-junit
@@ -108,11 +110,11 @@ jobs:
           command: |
             jest --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
-            JEST_JUNIT_OUTPUT: ./reports/junit/js-test-results-backend.xml
+            JEST_JUNIT_OUTPUT_DIR: /reports/junit/
       - store_test_results:
-          path: ./reports/junit/
+          path: /reports/junit
       - store_artifacts:
-          path: ./reports/junit      
+          path: /reports/junit      
       
 
 
