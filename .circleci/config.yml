@@ -72,7 +72,7 @@ jobs:
           name: Run tests with JUnit as reporter
           command: jest --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
-            JEST_JUNIT_OUTPUT_DIR: ./reports/junit/
+            JEST_JUNIT_OUTPUT: ./reports/junit/js-test-results-frontend.xml
       - store_test_results:
           path: ./reports/junit/
       - store_artifacts:
@@ -91,6 +91,20 @@ jobs:
             cd backend
             npm install jest
             npm run test
+
+      - run:
+          name: Install JUnit coverage reporter
+          command: yarn add --dev jest-junit
+      - run:
+          name: Run tests with JUnit as reporter
+          command: jest --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT: ./reports/junit/js-test-results-backend.xml
+      - store_test_results:
+          path: ./reports/junit/
+      - store_artifacts:
+          path: ./reports/junit      
+      
 
 
 #  scan-frontend:
