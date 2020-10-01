@@ -65,7 +65,6 @@ jobs:
             npm install jest
             npm run test
 
-    steps:
       - run:
           name: Install JUnit coverage reporter
           command: yarn add --dev jest-junit
