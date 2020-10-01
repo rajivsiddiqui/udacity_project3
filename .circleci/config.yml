@@ -70,7 +70,11 @@ jobs:
           command: yarn add --dev jest-junit
       - run:
           name: Run tests with JUnit as reporter
-          command: jest --ci --runInBand --reporters=default --reporters=jest-junit
+          command: |
+            mkdir reports
+            mkdir reports/junit
+            ls -ltr
+            jest --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT: ./reports/junit/js-test-results-frontend.xml
       - store_test_results:
@@ -97,7 +101,9 @@ jobs:
           command: yarn add --dev jest-junit
       - run:
           name: Run tests with JUnit as reporter
-          command: jest --ci --runInBand --reporters=default --reporters=jest-junit
+          command: |
+            ls -ltr
+            jest --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT: ./reports/junit/js-test-results-backend.xml
       - store_test_results:
