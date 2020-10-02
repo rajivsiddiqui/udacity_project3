@@ -62,7 +62,7 @@ jobs:
           command: |
             ls -ltr
             cd frontend
-            npm install -g jest
+            npm install jest
             npm run test
       - run:
           name: create reports directory 
@@ -75,7 +75,7 @@ jobs:
       - run:
           name: Run tests with JUnit as reporter
           command: |
-            jest --ci --runInBand --reporters=default --reporters=jest-junit
+            ./node_modules/.bin/jest --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT_DIR: ~/reports/junit/
       - store_test_results:
@@ -94,7 +94,7 @@ jobs:
           command: |
             ls -ltr
             cd backend
-            npm install -g jest
+            npm install jest
             npm run test
       - run:
           name: create reports directory 
@@ -108,7 +108,7 @@ jobs:
       - run:
           name: Run tests with JUnit as reporter
           command: |
-            jest --ci --runInBand --reporters=default --reporters=jest-junit
+            ./node_modules/.bin/jest --ci --runInBand --reporters=default --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT_DIR: /reports/junit/
       - store_test_results:
