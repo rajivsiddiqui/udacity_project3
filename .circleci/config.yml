@@ -79,9 +79,33 @@ jobs:
             npm install jest
             npm run test
 
-#  scan-frontend:
+# scan-frontend:
+  scan-frontend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: scan frontend
+          command: |
+            ls -ltr    
+            cd frontend
+            npm audit --audit-level=critical
+
 
 #  scan-backend:
+   scan-backend:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:
+          name: scan backend
+          command: |
+            ls -ltr    
+            cd backend
+            npm audit --audit-level=critical
+
 
 #  deploy-infrastructure:
 
@@ -110,5 +134,14 @@ workflows:
       - test-backend:
           requires:
             - build-compile-front-end
-            - build-compile-back-end  
+            - build-compile-back-end
+      - scan-frontend:
+          requires:
+            - test-frontend
+            - test-backend
+      - scan-backend:
+          requires:
+            - test-frontend
+            - test-backend
+
 
