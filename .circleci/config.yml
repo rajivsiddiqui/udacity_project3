@@ -132,6 +132,8 @@ jobs:
       - run:
           name: Verify frontend infrastructure
           command: |
+            cd .circleci
+            cd files
             pwd
             ls -la
             aws cloudformation deploy \
