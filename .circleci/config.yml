@@ -141,13 +141,55 @@ jobs:
               --stack-name "udapeople-frontend-prod-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}" \
               --tags project=udapeople
+   
+# get instance ip    
+  get_instance_ip:
+    environment:
+      ID: arns3
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Get the instance ip address for backend 
+          command: |
+            aws ec2 describe-instances \
+              --filters "Name=tag:Name, Values=udapeople-backend-prod-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text >> inventory
+      - run:
+          name: store the backend ip address to memstash so that frontend can use it. 
+          command: ./bkmemstash.sh
 
+#  configure-infrastructure: 
+  configure_infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - run: apk add --no-cache --upgrade bash
+      - run: apk --no-cache add curl
+      - run:
+          name: store the backend ip address to memstash so that frontend can use it. 
+          command: ./extract_ip_address.sh
 
-
-
-  
-
-#  configure-infrastructure:
+      - add_ssh_keys:
+          fingerprints: ["4f:bf:cf:27:a7:f0:1a:d6:27:72:12:fa:45:86:c7:fa"]
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update ansible
+      - run:
+          name: Install openssh
+          command: |
+             apk add openssh-client      
+      - run:
+          name: Configure server
+          command: |
+            cd .circleci/ansible/      
+            pwd
+            ls -la
+            ansible-playbook -i ~/project/inventory  main.yml            
 
 #  run-migrations:
 
