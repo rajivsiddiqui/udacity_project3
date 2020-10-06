@@ -3,7 +3,8 @@
   hosts: all
   user: ubuntu
   vars:
-   - ansible_python_interpreter: /usr/bin/python3
-   - ansible_host_key_checking: false
+    ansible_python_interpreter: /usr/bin/python3
+    host_key_checking: false
+    ansible_ssh_common_args: '-o StrictHostKeyChecking=no'
   roles:
    - configure-server
