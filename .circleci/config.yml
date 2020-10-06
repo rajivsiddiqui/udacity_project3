@@ -162,6 +162,7 @@ jobs:
           command: |
             chmod 777 bkmemstash.sh
             ./bkmemstash.sh
+            cat inventory
 
 #  configure-infrastructure: 
   configure_infrastructure:
@@ -174,8 +175,10 @@ jobs:
       - run:
           name: store the backend ip address to memstash so that frontend can use it. 
           command: |
+           
             chmod 777 extract_ip_address.sh 
             ./extract_ip_address.sh
+            cat inventory
 
       - add_ssh_keys:
           fingerprints: ["4f:bf:cf:27:a7:f0:1a:d6:27:72:12:fa:45:86:c7:fa"]
