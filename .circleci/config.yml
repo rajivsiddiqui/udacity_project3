@@ -312,7 +312,7 @@ jobs:
           name: Install awscli
           command: |
             pip3 install awscli 
-      - run: aws s3 cp frontend/dist s3://frontend-${CIRCLE_WORKFLOW_ID:0:7}/ --recursive                     
+      - run: aws s3 cp frontend/dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}/ --recursive                     
 
 #  deploy-frontend:
 
@@ -340,7 +340,7 @@ jobs:
       - run:
           name: smoke test frontend 
           command: |
-            URL="http://frontend-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-ap-south-1.amazonaws.com/#/employees"            
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-ap-south-1.amazonaws.com/#/employees"            
             if curl -s ${URL} | grep "Welcome"
             then
             return 1
@@ -382,7 +382,7 @@ jobs:
             
             if [[ "${STACKS[@]}" =~ "${OldWorkflowId}" ]]
             then
-              aws s3 rm s3://frontend-${OldWorkflowId} --recursive
+              aws s3 rm s3://udapeople-${OldWorkflowId} --recursive
               aws cloudformation delete-stack --stack-name "frontend-${OldWorkflowId}"
               aws cloudformation delete-stack --stack-name "cloudfront-${OldWorkflowId}"
             fi
