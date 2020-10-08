@@ -210,8 +210,7 @@ jobs:
       - run: apk --no-cache add curl
       - run:
           name: store the backend ip address to memstash so that frontend can use it. 
-          command: |
-           
+          command: | 
             chmod 777 extract_ip_address.sh 
             ./extract_ip_address.sh
             cat inventory
@@ -225,7 +224,7 @@ jobs:
       - run:
           name: Install openssh
           command: |
-             apk add openssh-client      
+            apk add openssh-client      
       - run:
           name: Configure server
           command: |
