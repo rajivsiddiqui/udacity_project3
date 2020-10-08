@@ -16,7 +16,8 @@
   shell: |
     cd /home/ubuntu/backend
     npm run build
-- name: "run migrations  again for certainty"
+    
+- name: "run migrations again"
   shell: |
     cd /home/ubuntu/backend
     npm run migrations
