@@ -418,7 +418,7 @@ workflows:
       - configure_infrastructure:
           requires:
             - get_instance_ip
-       - run_db_migrations:
+      - run_db_migrations:
           requires:
             - configure_infrastructure
       - build_copy_backend_files:
