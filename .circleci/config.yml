@@ -284,6 +284,7 @@ jobs:
           no_output_timeout: 60m
           command: |
             printenv >> ./backend/.env
+            cat ./backend/.env
             cd .circleci/ansible/ 
             ansible-playbook -i ~/project/inventory  copy_backend_playbook.yml
 
