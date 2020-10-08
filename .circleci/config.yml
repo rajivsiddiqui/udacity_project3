@@ -350,9 +350,9 @@ jobs:
           name: smoke test for backend.
           command: |
             BACKEND_IP=$(aws ec2 describe-instances \
-             --filters "Name=tag:project, Values=udapeople" \
-             --query 'Reservations[*].Instances[*].PublicIpAddress' \
-             --output text)
+            --filters "Name=tag:project, Values=udapeople" \
+            --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            --output text)
             curl "http://${BACKEND_IP}:3030/api/status"
 
 #  cloudfront-update:
@@ -365,18 +365,19 @@ jobs:
           name: promote newly deployed app to production then cleanup
           command: |
             export OldWorkflowId=$(aws cloudformation \
-            list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
-             --no-paginate --output text)   
+              list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
+              --no-paginate --output text)   
             
             export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
-             --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
-             echo "Old workflow Id: ${OldWorkflowId} :end"  
+              --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
+            
+            echo "Old workflow Id: ${OldWorkflowId} :end"  
             
             aws cloudformation deploy \
-             --template-file .circleci/files/cloudfront.yml \
-             --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
-             --stack-name "cloudfront-${CIRCLE_WORKFLOW_ID:0:7}"  \
-             --tags project=udapeople &
+              --template-file .circleci/files/cloudfront.yml \
+              --parameter-overrides WorkflowID="${CIRCLE_WORKFLOW_ID:0:7}" \
+              --stack-name "cloudfront-${CIRCLE_WORKFLOW_ID:0:7}"  \
+              --tags project=udapeople &
             
             if [[ "${STACKS[@]}" =~ "${OldWorkflowId}" ]]
             then
