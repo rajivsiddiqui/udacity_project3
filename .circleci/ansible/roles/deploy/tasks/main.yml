@@ -1,0 +1,28 @@
+- name: Creates directory
+  file:
+    path: /home/ubuntu/backend
+    state: directory
+- name: "move backend files to server."
+  copy:
+    src: /root/project/backend
+    dest: /home/ubuntu
+
+- name: "install package dependencies"
+  shell: |
+    cd /home/ubuntu/backend    
+    npm install 
+    
+- name: "build package"
+  shell: |
+    cd /home/ubuntu/backend
+    npm run build
+- name: "run migrations  again for certainty"
+  shell: |
+    cd /home/ubuntu/backend
+    npm run migrations
+    
+- name: Executing node
+  become: true
+  shell: |
+    cd /home/ubuntu/backend 
+    pm2 start npm -- run "start:dev"
