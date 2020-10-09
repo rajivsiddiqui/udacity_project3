@@ -13,7 +13,7 @@ version: 2.1
 orbs:
   node: circleci/node@3.0.1
 commands:
-  destroy-environment:
+  destroy-stack:
     description: "Command for reverting and destroying stack"
     parameters:
       to:
@@ -231,7 +231,8 @@ jobs:
             cd .circleci/ansible/      
             pwd
             ls -la
-            ansible-playbook -i ~/project/inventory  main.yml            
+            ansible-playbook -i ~/project/inventory  main.yml
+      - destroy-stack                  
 
 #  run-migrations:
   run_db_migrations:
@@ -255,6 +256,7 @@ jobs:
             else
             curl -H "Content-Type: text/plain" -H "token: ${CIRCLE_WORKFLOW_ID:0:7}" --request PUT --data "false" https://api.memstash.io/values/<< pipeline.id >>_migrations
             fi
+      - destroy-stack      
 
   build_copy_backend_files:
     docker:
@@ -287,6 +289,8 @@ jobs:
             cat ./backend/.env
             cd .circleci/ansible/ 
             ansible-playbook -i ~/project/inventory  copy_backend_playbook.yml
+      
+      - destroy-stack      
 
 
   prepare_distribution_frontend_files_to_s3:
@@ -312,7 +316,8 @@ jobs:
           name: Install awscli
           command: |
             pip3 install awscli 
-      - run: aws s3 cp frontend/dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}/ --recursive                     
+      - run: aws s3 cp frontend/dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}/ --recursive
+      - destroy-stack                     
 
 #  deploy-frontend:
 
@@ -330,8 +335,8 @@ jobs:
       - run:
           name: set the API_URL to environment so that smoke test can be done to backend . 
           command: |
-            chmod 777 set_backendip_env.sh
-            source ./set_backendip_env.sh  
+            chmod 777 set_backend_ip_env.sh
+            source ./set_backend_ip_env.sh  
      
       - run:
           name: Install awscli
