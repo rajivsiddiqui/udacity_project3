@@ -284,7 +284,7 @@ jobs:
       - run:
           name: Copy files to server
           no_output_timeout: 60m
-          command: |
+          command: | 
             printenv >> ./backend/.env
             cat ./backend/.env
             cd .circleci/ansible/ 
@@ -304,12 +304,21 @@ jobs:
           name: set the API_URL to environment so that frontend can burn it to the code on compile. 
           command: |
             chmod 777 set_backend_ip_env.sh
-            source ./set_backend_ip_env.sh  
+            source ./set_backend_ip_env.sh
+            export BACKEND_IP=$(aws ec2 describe-instances \
+              --filters "Name=tag:project, Values=udapeople" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text)
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "API_URL=$API_URL" >> frontend/.env  
+            echo "${API_URL}"
+  
      
       - run:
           name: Install npm
           command: |
             apk add --update npm
+      - run: npm install webpack-dev-server -g
       - run: cd frontend && npm install
       - run: cd frontend && npm run build
       - run:
