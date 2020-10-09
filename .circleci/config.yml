@@ -351,7 +351,7 @@ jobs:
             return 1
             else
             return 1
-            fi 
+            fi       
       - run:
           name: smoke test for backend.
           command: |
@@ -360,6 +360,8 @@ jobs:
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output text)
             curl "http://${BACKEND_IP}:3030/api/status"
+      
+      - destroy-stack      
 
 #  cloudfront-update:
   promote_to_production:
