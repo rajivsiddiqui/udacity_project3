@@ -310,7 +310,7 @@ jobs:
             chmod 777 set_backend_ip_env.sh
                    
             export BACKEND_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:project, Values=udapeople" \
+              --filters "Name=tag:project, Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
             export API_URL="http://${BACKEND_IP}:3030"
@@ -365,7 +365,7 @@ jobs:
           name: smoke test for backend.
           command: |
             BACKEND_IP=$(aws ec2 describe-instances \
-            --filters "Name=tag:project, Values=udapeople" \
+            --filters "Name=tag:project, Values=udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --output text)
             curl "http://${BACKEND_IP}:3030/api/status"
