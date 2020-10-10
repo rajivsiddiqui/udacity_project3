@@ -308,14 +308,7 @@ jobs:
           name: set the API_URL to environment so that frontend can burn it to the code on compile. 
           command: |
             chmod 777 set_backend_ip_env.sh
-                   
-            export BACKEND_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:project, Values=udapeople" \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text)
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "API_URL=$API_URL" >> ./frontend/.env  
-            echo "${API_URL}"
+            source ./set_backend_ip_env.sh
   
       - run:
           name: Install npm
@@ -345,7 +338,7 @@ jobs:
           name: set the API_URL to environment so that smoke test can be done to backend . 
           command: |
             chmod 777 set_backend_ip_env.sh
-          # source ./set_backend_ip_env.sh  
+            source ./set_backend_ip_env.sh  
      
       - run:
           name: Install awscli
