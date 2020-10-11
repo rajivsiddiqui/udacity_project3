@@ -16,14 +16,15 @@
   shell: |
     cd /home/ubuntu/backend
     npm run build
-#    
-#- name: "run migrations again"
-#  shell: |
-#    cd /home/ubuntu/backend
-#    npm run migrations
-#    
+    
+- name: "run migrations again"
+  shell: |
+    cd /home/ubuntu/backend
+    npm run migrations
+    
 - name: Executing node
   become: true
   shell: |
     cd /home/ubuntu/backend 
-    pm2 start npm -- run "start:dev"
+    pm2 start npm --name backend --start
+    pm2 ls
