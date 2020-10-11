@@ -251,12 +251,13 @@ jobs:
       - image: circleci/node:latest
     steps:
       - checkout
-      - run: cd backend && npm install
+      - run: 
+         cd backend && npm install
       - run: 
           name: Run database migrations 
           no_output_timeout: 10m
           command: |
-            cd backend && npm run migrations | tee migration_results.txt
+            cd backend && npm run migrations > migration_results.txt
       - run:
           name: Save result value
           command: |
