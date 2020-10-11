@@ -1,5 +1,5 @@
 #!/bin/bash
-ip=$(curl -H "token: 347407f8-3d4a-4990-98c5-3b96142561b4" --request GET https://api.memstash.io/values/backend )
+ip=$(curl -H "token:100754a2-c8e8-47f6-acc3-471691e1eb0e" --request GET https://api.memstash.io/values/backend )
 echo 'testing'
 echo $ip
 export API_URL=$ip
