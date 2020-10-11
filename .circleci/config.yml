@@ -25,7 +25,9 @@ commands:
     steps:
       - run:
           name: Delete s3 files
-          command: aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+          command: |
+            pip3 install awscli
+            aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
           when: on_fail
       - run:
           name: Delete current stacks
