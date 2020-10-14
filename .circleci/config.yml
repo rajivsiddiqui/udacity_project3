@@ -394,7 +394,7 @@ jobs:
             cp jq /usr/bin
             curl -H "content-length: 0" -X POST "https://keyvalue.immanuel.co/api/KeyVal/UpdateValue/${STORE_TOKEN}/workflow_id/${CIRCLE_WORKFLOW_ID:0:7}"
             
-            export OldWorkflowId=$(curl https://keyvalue.immanuel.co/api/KeyVal/GetValue/${STORE_TOKEN}/workflow_id | jq -r)
+            export OldWorkflowId=$(curl https://keyvalue.immanuel.co/api/KeyVal/GetValue/${STORE_TOKEN}/workflow_id | jq -r .)
             
             export STACKS=($(aws cloudformation list-stacks --query "StackSummaries[*].StackName" \
               --stack-status-filter CREATE_COMPLETE --no-paginate --output text)) 
@@ -413,6 +413,7 @@ jobs:
               aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowId}"
               aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowId}"
             fi
+      - destroy-stack       
 
 workflows:
   default:
