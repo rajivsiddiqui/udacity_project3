@@ -398,7 +398,7 @@ jobs:
 
             set TERM=xterm
             export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name=='WorkflowID'].Value" --region ap-south-1 --no-paginate --output text)
-            echo Old Workflow Id: "${OldWorkflowID}"
+            echo "Old Workflow Id is ${OldWorkflowID}"
             if [ -n "${OldWorkflowID}" ]
             then
             echo "Update existing CloudFront stack"
@@ -416,6 +416,8 @@ jobs:
               --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
               --tags 'Key=project,Value=udapeople'            
             fi
+
+            echo "Old Workflow Id after update ${OldWorkflowID}"
             if [ -n "${OldWorkflowID}" ]
             then
               echo "Empty old S3 bucket and delete old frontend stack"
