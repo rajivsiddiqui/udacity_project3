@@ -71,6 +71,10 @@ jobs:
           name: build and compile front end
           command: |
             ls -ltr
+            touch test
+            echo "testing"
+            echo "old workflow id ${OLD_WORKFLOW_ID}" >> test
+            cat test
             cd frontend
             npm i
             npm run build
@@ -159,9 +163,7 @@ jobs:
       - run:
           name: Verify backend infrastructure
           command: |
-            echo "testing"
-            echo "old workflow id ${OLD_WORKFLOW_ID}" >> test
-            cat test
+            
             cd .circleci
             cd files
             pwd
