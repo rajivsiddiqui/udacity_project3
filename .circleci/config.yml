@@ -159,6 +159,8 @@ jobs:
       - run:
           name: Verify backend infrastructure
           command: |
+            echo "old workflow id ${OLD_WORKFLOW_ID}" > test
+            cat test
             cd .circleci
             cd files
             pwd
