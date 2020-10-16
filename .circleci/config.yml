@@ -417,7 +417,6 @@ jobs:
               --tags 'Key=project,Value=udapeople'            
             fi
 
-            echo "Old Workflow Id after update ${OldWorkflowID}"
             if [ -n "${OldWorkflowID}" ]
             then
               echo "Empty old S3 bucket and delete old frontend stack"
