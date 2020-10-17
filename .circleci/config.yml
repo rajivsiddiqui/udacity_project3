@@ -26,7 +26,8 @@ commands:
       - run:
           name: Delete s3 files
           command: |
-            pip3 install awscli
+            npm install pip
+            pip install awscli
             aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
           when: on_fail
       - run:
@@ -396,7 +397,6 @@ jobs:
           name: promote newly deployed app to production then cleanup
           command: |
 
-            set TERM=xterm
             export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name=='WorkflowID'].Value" --region ap-south-1 --no-paginate --output text)
             echo "Old Workflow Id is ${OldWorkflowID}"
             if [ -n "${OldWorkflowID}" ]
