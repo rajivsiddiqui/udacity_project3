@@ -340,6 +340,14 @@ jobs:
       - run: cd frontend && npm run build
        
       - run: aws s3 cp frontend/dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}/ --recursive
+      - run:
+          name: Create cloudformation stack
+          command: |
+            aws cloudformation create-stack  \
+              --stack-name udapeople-cloudfront \
+              --template-body file://./.circleci/files/cloudfront.yml \
+              --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
+              --tags 'Key=project,Value=udapeople'
       - destroy-stack                     
 
 #  deploy-frontend:
@@ -396,28 +404,7 @@ jobs:
           name: promote newly deployed app to production then cleanup
           command: |
             set TERM=xterm
-
-            export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name=='WorkflowID'].Value" --region ap-south-1 --no-paginate --output text)
-            echo "Old Workflow Id is ${OldWorkflowID}"
-            if [ -n "${OldWorkflowID}" ]
-            then
-            echo "Update existing CloudFront stack"
-            
-            aws cloudformation update-stack  \
-              --stack-name udapeople-cloudfront \
-              --template-body file://./.circleci/files/cloudfront.yml \
-              --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
-              --tags 'Key=project,Value=udapeople'
-            else              
-            echo "Create CloudFront stack"
-            aws cloudformation create-stack  \
-              --stack-name udapeople-cloudfront \
-              --template-body file://./.circleci/files/cloudfront.yml \
-              --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
-              --tags 'Key=project,Value=udapeople'            
-            fi
-
-            sleep 300
+                    
             export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name=='WorkflowID'].Value" --region ap-south-1 --no-paginate --output text)
             echo "Old Workflow Id 2nd time is ${OldWorkflowID}"
 
