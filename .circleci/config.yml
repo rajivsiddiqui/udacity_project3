@@ -394,8 +394,8 @@ jobs:
       - checkout
       - run:
           name: promote newly deployed app to production then cleanup
-          no_output_timeout: 30m
           command: |
+            set TERM=xterm
 
             export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name=='WorkflowID'].Value" --region ap-south-1 --no-paginate --output text)
             echo "Old Workflow Id is ${OldWorkflowID}"
@@ -428,8 +428,9 @@ jobs:
               aws cloudformation delete-stack --stack-name udapeople-frontend-prod-${OldWorkflowID}
               echo "Delete old backend stack"              
               aws cloudformation delete-stack --stack-name udapeople-backend-prod-${OldWorkflowID}
-              exit
             fi
+
+            echo "stack deleted succesfully"
       - destroy-stack       
 
 workflows:
