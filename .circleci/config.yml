@@ -348,6 +348,9 @@ jobs:
               --template-body file://./.circleci/files/cloudfront.yml \
               --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
               --tags 'Key=project,Value=udapeople'
+      - run:
+          name: Wait for the cf stack to complete
+          command : sleep 300         
       - destroy-stack                     
 
 #  deploy-frontend:
@@ -404,7 +407,7 @@ jobs:
           name: promote newly deployed app to production then cleanup
           command: |
             set TERM=xterm
-                    
+
             export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name=='WorkflowID'].Value" --region ap-south-1 --no-paginate --output text)
             echo "Old Workflow Id 2nd time is ${OldWorkflowID}"
 
