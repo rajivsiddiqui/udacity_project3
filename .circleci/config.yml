@@ -70,11 +70,7 @@ jobs:
       - run:
           name: build and compile front end
           command: |
-            ls -ltr
-            touch test
-            echo "testing"
-            echo "old workflow id ${OLD_WORKFLOW_ID}" >> test
-            cat test
+           
             cd frontend
             npm i
             npm run build
@@ -340,17 +336,6 @@ jobs:
       - run: cd frontend && npm run build
        
       - run: aws s3 cp frontend/dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}/ --recursive
-      - run:
-          name: Create cloudformation stack
-          command: |
-            aws cloudformation create-stack  \
-              --stack-name udapeople-cloudfront \
-              --template-body file://./.circleci/files/cloudfront.yml \
-              --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
-              --tags 'Key=project,Value=udapeople'
-      - run:
-          name: Wait for the cf stack to complete
-          command : sleep 300         
       - destroy-stack                     
 
 #  deploy-frontend:
@@ -403,6 +388,17 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
+      - run:
+          name: Create cloudformation stack
+          command: |
+            aws cloudformation create-stack  \
+              --stack-name udapeople-cloudfront \
+              --template-body file://./.circleci/files/cloudfront.yml \
+              --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
+              --tags 'Key=project,Value=udapeople'
+      - run:
+          name: Wait for the cf stack to complete
+          command : sleep 300         
       - run:
           name: promote newly deployed app to production then cleanup
           command: |
