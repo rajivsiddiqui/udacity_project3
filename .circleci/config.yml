@@ -463,8 +463,8 @@ workflows:
       - run_smoke_test:
           requires:
             - prepare_distribution_frontend_files_to_s3
-      - promote_to_production:
-          requires:
-            - run_smoke_test                       
+     # - promote_to_production:
+      #    requires:
+       #     - run_smoke_test                       
 
 
