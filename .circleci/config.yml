@@ -392,7 +392,7 @@ jobs:
           name: Create cloudformation stack
           command: |
             aws cloudformation create-stack  \
-              --stack-name udapeople-cloudfront \
+              --stack-name udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7} \
               --template-body file://./.circleci/files/cloudfront.yml \
               --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
               --tags 'Key=project,Value=udapeople'
