@@ -391,7 +391,7 @@ jobs:
       - run:
           name: promote newly deployed app to production
           command: |
-            aws cloudformation deploy  \
+            aws cloudformation create-stack  \
               --stack-name udapeople-cloudfront-${CIRCLE_WORKFLOW_ID:0:7} \
               --template-body file://./.circleci/files/cloudfront.yml \
               --parameters ParameterKey=WorkflowID,ParameterValue=${CIRCLE_WORKFLOW_ID:0:7} \
