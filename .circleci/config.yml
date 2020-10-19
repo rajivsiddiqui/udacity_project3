@@ -407,8 +407,15 @@ jobs:
             export OldWorkflowID=$(aws cloudformation list-exports --query "Exports[?Name=='WorkflowID'].Value" --region ap-south-1 --no-paginate --output text)
             echo "Old Workflow Id 2nd time is ${OldWorkflowID}"
 
-            
-          #  echo "stack deleted succesfully"
+            if [ -n "${OldWorkflowID}" ]
+            then
+              echo "Empty old S3 bucket and delete old frontend stack"
+              aws s3 rm s3://udapeople-${OldWorkflowID} --recursive
+              aws cloudformation delete-stack --stack-name udapeople-frontend-prod-${OldWorkflowID}
+              echo "Delete old backend stack"
+              aws cloudformation delete-stack --stack-name udapeople-backend-prod-${OldWorkflowID} 
+              echo "stack deleted succesfully"
+            fi  
       - destroy-stack       
 
 workflows:
