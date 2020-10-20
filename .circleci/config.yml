@@ -197,6 +197,11 @@ jobs:
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --filters "Name=tag:project,Values=udapeople" \
               --output text >> inventory
+            
+            export BACKEND_IP=$(aws ec2 describe-instances \
+              --filters "Name=tag:project,Values=udapeople" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text)  
       - run:
           name: store the backend ip address to memstash so that frontend can use it. 
           command: |
@@ -326,6 +331,9 @@ jobs:
           command: |
             chmod 777 set_backend_ip_env.sh
             source ./set_backend_ip_env.sh
+            export API_URL="http://${BACKEND_IP}:3030"
+            echo "API_URL=$API_URL" >> frontend/.env
+            echo "${API_URL}"
   
       - run:
           name: Install npm
