@@ -339,7 +339,7 @@ jobs:
             echo $BACKEND_IP
             cd frontend                                         
             export API_URL=http://$BACKEND_IP:3030
-            echo $API_URL >> frontend/.env
+            echo $API_URL >> .env
             echo $API_URL
             apk add --update npm
             npm install
