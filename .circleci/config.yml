@@ -330,10 +330,10 @@ jobs:
           name: set the API_URL to environment so that frontend can burn it to the code on compile. 
           command: |
             chmod 777 set_backend_ip_env.sh
-            source ./set_backend_ip_env.sh
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "API_URL=$API_URL" >> frontend/.env
-            echo "${API_URL}"
+                                                     
+            export API_URL=http://$BACKEND_IP:3030
+            echo $API_URL >> frontend/.env
+            echo $API_URL
   
       - run:
           name: Install npm
