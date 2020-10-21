@@ -266,8 +266,9 @@ jobs:
           name: Run database migrations 
           no_output_timeout: 10m
           command: |
-            cd backend && npm run migrations >> migration_results.txt
-            cd backend && cat migration_results.txt
+            touch migration_results
+            cd backend && npm run migrations > migration_results
+            
             
       - run: 
           name: Save result value
@@ -331,7 +332,11 @@ jobs:
           name: set the API_URL to environment so that frontend can burn it to the code on compile. 
           command: |
             chmod 777 set_backend_ip_env.sh
-                                                     
+            export BACKEND_IP=$(aws ec2 describe-instances \
+              --filters "Name=tag:project,Values=udapeople" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text)
+            echo $BACKEND_IP                                         
             export API_URL=http://$BACKEND_IP:3030
             echo $API_URL >> frontend/.env
             echo $API_URL
@@ -364,6 +369,10 @@ jobs:
           name: set the API_URL to environment so that smoke test can be done to backend . 
           command: |
             chmod 777 set_backend_ip_env.sh
+            export BACKEND_IP=$(aws ec2 describe-instances \
+              --filters "Name=tag:project,Values=udapeople" \
+              --query 'Reservations[*].Instances[*].PublicIpAddress' \
+              --output text)
           
             export API_URL=http://$BACKEND_IP:3030
             echo $API_URL >> frontend/.env
