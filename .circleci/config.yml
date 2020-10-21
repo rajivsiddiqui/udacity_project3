@@ -266,9 +266,10 @@ jobs:
           name: Run database migrations 
           no_output_timeout: 10m
           command: |
-            touch migration_results.txt
-            cd backend && npm run migrations > migration_results.txt
-      - run:
+            cd backend && npm run migrations >> migration_results.txt
+            cd backend && cat migration_results.txt
+            
+      - run: 
           name: Save result value
           command: |
             cd backend
@@ -363,7 +364,11 @@ jobs:
           name: set the API_URL to environment so that smoke test can be done to backend . 
           command: |
             chmod 777 set_backend_ip_env.sh
-            source ./set_backend_ip_env.sh  
+          
+            export API_URL=http://$BACKEND_IP:3030
+            echo $API_URL >> frontend/.env
+            echo $API_URL
+    
      
       - run:
           name: Install awscli
