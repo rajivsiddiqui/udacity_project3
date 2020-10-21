@@ -336,18 +336,14 @@ jobs:
               --filters "Name=tag:project,Values=udapeople" \
               --query 'Reservations[*].Instances[*].PublicIpAddress' \
               --output text)
-            echo $BACKEND_IP                                         
+            echo $BACKEND_IP
+            cd frontend                                         
             export API_URL=http://$BACKEND_IP:3030
             echo $API_URL >> frontend/.env
             echo $API_URL
-  
-      - run:
-          name: Install npm
-          command: |
             apk add --update npm
-      - run: npm install webpack-dev-server -g
-      - run: cd frontend && npm install
-      - run: cd frontend && npm run build
+            npm install
+            npm run build
        
       - run: aws s3 cp frontend/dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7}/ --recursive
       - destroy-stack                     
