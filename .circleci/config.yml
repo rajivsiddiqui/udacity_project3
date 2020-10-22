@@ -101,8 +101,13 @@ jobs:
           command: |
             ls -ltr
             cd frontend
-            npm install jest
-            npm run test
+            npm install jest-junit
+            npm run test -- --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: /tmp/reports/junit/
+      - store_test_results:
+          path: /tmp/reports/junit/       
+
       
 # test-backend:
   test-backend:
