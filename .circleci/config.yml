@@ -101,7 +101,7 @@ jobs:
           command: |
             ls -ltr
             cd frontend
-            npm install jest-junit
+            npm install jest
             npm run test
         
       
